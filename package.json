@@ -109,7 +109,7 @@
     "css-mqpacker": "^5",
     "cssnano": "^3",
     "dedupe-plugin": "^1.0.0",
-    "eslint": "^1.1.0",
+    "eslint": "^6.8.0",
     "html-loader": "^0.4.3",
     "jasmine-core": "^2.5.2",
     "karma": "^1.2.0",
