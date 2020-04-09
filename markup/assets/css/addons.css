@@ -1,0 +1,22 @@
+.controls-footer-multi {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.controls-footer-multi button {
+    padding-left: 25px;
+    padding-right: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 15px;
+}
+
+.btn-outline-primary {
+    border-color: #209cec;
+    color: #1b7dbe;
+}
+
+.btn-info {
+    background: linear-gradient(284deg, #3044ad, #339cd2);
+    border: none;
+}

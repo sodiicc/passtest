@@ -1,0 +1,32 @@
+@import '../../../../assets/styl/variables.styl'
+
+.text-bonus-info
+  color #2da8f7
+
+.text-bonus-danger
+  color #eb536f
+
+.steps-container-wide {
+  display: table;
+  margin: auto;
+  padding-top: 8.5px;
+  padding-bottom: 8.5px
+}
+
+.answer-status-container {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.loading-area-opacity
+  opacity 1
+  transition 0.3s opacity
+  &.active
+    opacity .7
+
+.cursor-pointer
+  cursor pointer

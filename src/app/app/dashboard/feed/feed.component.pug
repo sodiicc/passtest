@@ -1,0 +1,54 @@
+.container
+    .container-indent(
+    *ngIf="feed",
+    data-infinite-scroll,
+    [infiniteScrollDistance]="1",
+    [infiniteScrollThrottle]="300",
+    (scrolled) = "onScrollDown()")
+        ng-container(*ngFor="let record of feed")
+            // Courses
+            ng-container(*ngIf="record?.type == 9")
+                .card.card-items.bg-primary.bg-gradient.mb-3(
+                [attr.style]="record.color.generateGradient() | sanitizeStyle",
+                (click)="goTo(record?.type, record?.id)")
+                    .card-body
+                        h4.card-title.inline-status {{ record?.name }}
+                            .circle-status([ngClass] = "{'circle-status-completed': record?.completed}")
+                        ng-container(*ngIf="record.description")
+                            p.card-text([innerHTML]='record?.description | sanitizeHtml') 
+                        .row
+                            .col.align-self-center.overflow-ellips
+                                img.brand-icon-wide(*ngIf="record?.organization_icon", [src]="record?.organization_icon")
+                                span(*ngIf="!record?.organization_icon") {{ record?.organization_name }}
+                            .col-auto.align-self-center
+                                a.btn.btn-light.btn-gradient-inherit Пройти курс →
+            ng-container(*ngIf="record?.type == 13")
+                .card.bg-transparent.border-secondary.mb-3((click)="goTo(record?.type, record?.id)")
+                    .card-body
+                        h4.card-title.mb-0 {{ record?.name }}
+                        .row.mb-3
+                            .col
+                                span.badge.badge-tags(*ngFor="let tag of record.tags") {{tag}}
+                        p.card-text {{record?.description}}
+
+ng-template(#guideModal='')
+    .modal-body()
+        carousel([interval]="false", [activeSlide]="guideSlide").carouser-guide
+            slide
+                .guide-body
+                    .lead
+                        p «Мои Курсы» - ваш рабочий стол. Здесь появляются новые курсы (находятся, которые вы проходите).
+                        p Теперь откройте Меню
+                    .guide-controls.row.justify-content-between
+                        .col-auto
+                            .btn.btn.btn-link.px-0((click)="hideGuide()") Пропустить
+                        .col-auto
+                            .btn.btn.btn-green((click)="nextGuideSlide()") Далее →
+            slide
+                .guide-body
+                    .lead
+                        p «Мои Курсы» - ваш рабочий стол. Здесь появляются новые курсы (находятся, которые вы проходите).
+                    .guide-controls.row.justify-content-between
+                        .col-auto
+                        .col-auto
+                            .btn.btn.btn-green((click)="hideGuide()") Завершить

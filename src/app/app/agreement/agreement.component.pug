@@ -1,0 +1,31 @@
+.container
+    .layout-content
+        .container-indent
+            .card.card-items.bg-primary.bg-light.mb-3
+                .card-body.pt-4.pb-4.pl-5.pr-5(*ngIf="agreement")
+                    
+                    div([innerHTML]='agreement?.text | sanitizeHtml')
+
+                    a( class="agreement-link d-block mb-4", (click)="onClickLink()") {{ agreement?.linkName }}
+
+                    div.d-flex.mb-3
+                        input(type="checkbox", class="form-check-inline mr-3", (change)="toggleChecked()" )
+                        div.font-weight-bold.align-top {{ agreement?.answerText }} 
+   
+                    .text-center
+                        button.btn.btn-primary.btn-lg((click)="onAgree()", [disabled]="!isChecked") {{ agreement?.submitName }} 
+
+        .content
+            .loading-container(*ngIf="loading")
+                .row.h-100.m-0
+                    .col-auto.m-auto
+                        md-progress-spinner(
+                            class="example-margin",
+                            color="#bebebe",
+                            mode="indeterminate")
+            //ng-template(#modalWindowElem='')
+                .modal-body((click)="modalWindowInstance.hide()") {{modalWindow.message}}
+                .container-fluid
+                    .row.modal-controls
+                        .col(*ngFor="let button of modalWindow.buttons")
+                            .modal-control((click)="button.callback(modalWindowInstance)") {{button.text}}

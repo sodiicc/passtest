@@ -1,0 +1,253 @@
+@font-face
+  font-family 'Circe'
+  font-weight normal
+  src local('Circe'), url('../fonts/circe_regular.woff') format('woff')
+
+@font-face
+  font-family 'Circe'
+  font-weight bold
+  src local('Circe'), url('../fonts/circe_bold.woff') format('woff')
+
+@font-face
+  font-family 'Circe-light'
+  src local('Circe'), url('../fonts/circe_extra_light.woff') format('woff')
+
+@font-face
+  font-family 'Futura'
+  font-weight bold
+  src local('Circe'), url('../fonts/FuturaPT-Medium.woff') format('woff')
+
+
+.container-indent
+  padding-top 5rem
+
+.vh-50
+  height 50%
+
+.overflow-ellips
+  overflow hidden
+  white-space nowrap
+  text-overflow ellipsis
+
+.pull-bottom
+  position absolute
+  width 100%
+  bottom 0
+
+.text-underline
+  border-bottom 1px solid rgba(15, 15, 15, 0.1)
+
+.controls-fixed, .controls-footer
+  z-index 1000
+  bottom 0
+  width 100%
+  padding 30px
+  left 0
+
+.controls-fixed
+  position fixed
+
+.controls-footer
+  position absolute
+  padding-bottom 60px
+
+.h7
+  font-size 14px
+
+.bg-light
+  box-shadow 0 11px 12px 0 rgba(195, 206, 214, 0.53) !important
+
+.bg-purple
+  background-color #5573bf
+  .navbar-toggle
+    .icon-bar
+      background-color white !important
+
+.bg-gradient
+  background #f7d92d
+  border none
+
+.bg-gradient-yellow
+  background linear-gradient(106deg, #ffda0e, #ffa111)
+
+.bg-gradient-danger
+  background linear-gradient(171deg, #f9991d, #f7462d)
+
+.bg-gradient-success
+  background linear-gradient(156deg, #36b0ff, #34cdb6)
+
+.bg-gradient-1
+  background linear-gradient(to right, #f7d92d 0%,#ff8a5b 50%,#ea526f 100%)
+.bg-gradient-1
+  .btn-gradient-inherit
+    color #f16568 !important
+
+.card-items.bg-gradient-1:hover,
+.card-active.bg-gradient-1
+  box-shadow 0 10px 16px 0 rgba(234, 83, 110, 0.33)
+
+.bg-gradient-2
+  background linear-gradient(to right, #3cc2ff 0%,#bf9eff 50%,#77ffe5 100%)
+.bg-gradient-2
+  .btn-gradient-inherit
+    color #52bcff !important
+
+.bg-dark
+  background-color #000000 !important
+  color #ffffff
+
+.blockquote-primary
+  border-left 3px solid #2da7f8
+  padding-left 20px
+  line-height 1.33
+
+.border
+  border-width 2px !important
+
+.border-secondary
+  border-color #dddddd !important
+
+.text-secondary
+  color #9a9a9a
+
+.text-semimuted
+  color rgba(15, 15, 15, 0.6)
+
+.lesson-icon
+  background-image url(../img/lesson-types.png)
+  background-repeat no-repeat
+  display block
+
+.lesson-icon-audio
+  width 19px
+  height 15px
+  background-position -5px -5px
+
+.lesson-icon-text
+  width 15px
+  height 23px
+  background-position -34px -5px
+
+.lesson-icon-video
+  width 25px
+  height 25px
+  background-position -5px -38px
+
+body.modal-open
+  .layout-content, .auth-container
+    filter: blur(20px);
+
+.modal-transparent
+  & > .modal-content
+    background transparent
+    border none
+
+.modal-backdrop
+  background-color transparent !important
+
+.modal-p
+  font-size 22px
+  color #1a5164
+  line-height 1.32
+
+.modal-open
+  .modal
+    display flex !important
+    align-items center !important
+    .modal-dialog
+      flex-grow 1
+
+.mat-progress-spinner
+  path
+    stroke rgba(15, 15, 15, 0.07) !important
+
+.btn-control-text
+  font-size 18px !important
+
+.height-100
+  height 100% !important
+
+.badge
+  margin-right 5px
+
+.badge-tags
+  background-color transparent
+  border 1px solid #868e96
+  color #868e96
+  font-weight 100
+
+.loading-container
+  position absolute
+  height 100%
+  width 100%
+  left 0
+
+
+/* Toggle button */
+.toggle
+  vertical-align middle
+  label
+    input[type=checkbox]:first-child
+      opacity 0
+      display block
+      width 0
+      height 0
+      &:checked
+        & + .toggle
+          background-color rgb(255, 255, 255)
+          &:after
+            background-color #0092ff
+            left 22px
+    .toggle
+      &:after
+        content ""
+        display inline-block
+        width 20px
+        height 20px
+        background-color #ada7a7
+        border-radius 20px
+        position relative
+        right -2px
+        top 2px
+        transition left 0.3s ease, background 0.3s ease, box-shadow 0.1s ease
+
+.toggle,
+.toggle *
+  user-select none
+
+.toggle label .toggle,
+.toggle label input[type=checkbox][disabled]:first-child + .toggle
+  content ""
+  display inline-block
+  width 44px
+  height 24px
+  background-color rgb(255, 255, 255)
+  border-radius 15px
+  margin-right 10px
+  transition background 0.3s ease
+
+// Modals
+
+.modal-default
+  font-size 20px
+  line-height 1.4
+  margin 15px
+  .modal-body
+    text-align center
+    padding 40px 50px
+  .modal-content
+    border none !important
+    box-shadow 0px 0px 50px #00000066
+
+.modal-controls
+  border-top 1px solid #e9e9e9
+  .modal-control
+    color #cb7985
+    padding-top 20px
+    padding-bottom 20px
+    text-align center
+    cursor pointer
+
+@media (min-width: 576px)
+  .modal-default
+    margin 15px auto

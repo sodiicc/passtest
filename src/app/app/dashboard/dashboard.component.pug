@@ -1,0 +1,78 @@
+.layout-menu([ngClass]="{'menu-active': menu_active}")
+    .menu-navigation
+        .col.text-right.align-self-center
+            button.btn.btn-control.btn-active((click)="closeMenu()")
+                .icon-text-x
+    ul.navbar-nav.pull-bottom.navbar-main
+        li.nav-item(
+        *ngFor="let menu of menu_items",
+        [ngClass]="{'active': router.url.startsWith(menu['route'])}")
+            a.nav-link((click)="closeMenu()", [routerLink]="[menu['route']]")
+                div([ngClass]="menu['icon']")
+                | {{menu['title']}}
+        li.nav-item.nav-divider
+        li.nav-item
+            a.nav-link((click)='logout()')
+                .icon-menu.icon-menu-exit
+                | Выход
+.layout-content(*ngIf="options")
+    nav(*ngIf="!fullscreen", [ngClass]="options.navClasses", [attr.style]="options.navStyle | sanitizeStyle")
+        ng-container(*ngIf="options.navControls")
+            .row
+                .col-2.align-self-center
+                    ng-container(*ngIf="options.navControlsLeft === null && options.navPreviousRoute")
+                        a.control-back-arrow((click)="options.navPreviousRoute(previous_url)") ←
+                    ng-container(
+                    *ngIf="options.navControlsLeft !== null")
+                        div([innerHTML]="options.navControlsRight")
+                .col.text-center.align-self-center.overflow-ellips
+                    a.navbar-brand {{options.title}}
+                .text-right.align-self-center(class="{{options.navControlsRightSize}}")
+                    ng-container(*ngIf="options.navControlsRightActive")
+                        ng-container(*ngIf="options.navControlsRight === null")
+                            button.navbar-toggle.collapsed.p-0((click)="openMenu()")
+                                span.sr-only Toggle navigation
+                                span.icon-bar
+                                span.icon-bar
+                                span.icon-bar
+                        ng-container(
+                        *ngIf="options.navControlsRight !== null")
+                            button.btn.btn-control(
+                            (click)="options.navControlsRight.callback()",
+                            [ngClass]="options.navControlsRight.classes",
+                            [innerHTML]="options.navControlsRight.content",
+                            [attr.disabled]="options.navControlsRight.active ? null : 'disabled'")
+        ng-container(*ngIf="!options.navControls")
+            a.navbar-brand
+                div(*ngIf="getCurrentMenu()", [ngClass]="getCurrentMenu().icon")
+                | {{options.title}}
+            ng-container(*ngIf="options.navControlsBonuses")
+                button.btn.btn-primary.btn-present-md.d-none(routerLink="/dashboard/bonuses/phone") СНЯТЬ БАЛЛЫ →
+            ng-container(*ngIf="options.navControlsRight === null")
+                button.navbar-toggle.collapsed.p-0((click)="openMenu()")
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+            ng-container(*ngIf="options.navControlsRight !== null")
+                button.btn.btn-control(
+                (click)="options.navControlsRight.callback()",
+                [ngClass]="options.navControlsRight.classes",
+                [innerHTML]="options.navControlsRight.content",
+                [attr.disabled]="options.navControlsRight.active ? null : 'disabled'")
+    .content(
+    [ngClass]="options.content.classes")
+        .loading-container(*ngIf="loading")
+            .row.h-100.m-0
+                .col-auto.m-auto
+                    md-progress-spinner(
+                    class="example-margin",
+                    color="#bebebe",
+                    mode="indeterminate")
+        router-outlet
+    ng-template(#modalWindowElem='')
+        .modal-body((click)="modalWindowInstance.hide()") {{modalWindow.message}}
+        .container-fluid
+            .row.modal-controls
+                .col(*ngFor="let button of modalWindow.buttons")
+                    .modal-control((click)="button.callback(modalWindowInstance)") {{button.text}}

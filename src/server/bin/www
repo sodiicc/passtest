@@ -1,0 +1,120 @@
+#!/usr/bin/env node
+
+/**
+ * Module dependencies.
+ */
+
+import moment from 'moment';
+
+const app = require('../app');
+const debug = require('debug')('bbdem:server');
+const http = require('http');
+const config = require('../../../config/server.json');
+const WebSocketClient = require('websocket').client;
+
+let wsClient = require('../socket/client');
+let socketService = require('../socket/service');
+let push = require('../api/push/push');
+
+let cometServer = require('../comet/socket');
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(config.serverPort);
+const address = normalizePort(config.serverAddress);
+app.set('port', port);
+app.set('address', address);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/*
+// COMET Server socket
+const cometSocketIO = socketIo(server, { path: config.authorization.socket_comet }).listen(server);
+let cometIO = cometServer(cometSocketIO);
+*/
+
+const clientWS = new WebSocketClient();
+clientWS.on('connectFailed', function(error) {
+    console.log('Client connect error: ' + error.toString());
+    let sendMessage = setInterval(function() {
+        let date = new Date();
+        date = moment(date).unix();
+        socketService.set('message', 'Error: ' + date + ': ' + error.toString());
+    }, config.interval);
+});
+clientWS.on('connect', wsClient);
+clientWS.connect(config.socket);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
+
+    const bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
+
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+    const addr = server.address();
+    const bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
+}

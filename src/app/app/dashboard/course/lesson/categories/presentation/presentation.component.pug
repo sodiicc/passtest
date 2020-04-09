@@ -1,0 +1,47 @@
+.container.h-100([ngClass]="{'container-fullscreen': fullscreen, 'd-none': loading}",)
+    .container-indent.presentation-container
+        .presentation-title(*ngIf="interface_enable")
+            .row.justify-content-between
+                .col-10.pi-top-meta
+                    h4.m-0
+                        | {{lesson?.name}}
+                .col-auto
+                    ng-container(*ngIf="fullscreen")
+                        i.fa.fa-compress.presentation-overlay-control((click)="fullscreenDisable()")
+                    ng-container(*ngIf="!fullscreen")
+                        i.fa.fa-expand.presentation-overlay-control((click)="fullscreenEnable()")
+        pinch-zoom(zoom-content="pdf-viewer", style="height: 100%; max-height 100%; width: 100%")
+            .presentation-view-container
+                pdf-viewer(
+                [src]="lesson?.content",
+                [page]="current_page",
+                [show-all]="false",
+                [original-size]="false",
+                [render-text]="true",
+                [fit-to-page]="true",
+                [stick-to-page]="true",
+                [autoresize]="true",
+                (error)="onError($event)",
+                (after-load-complete)="onLoaded($event)",
+                (click)="switchInterface()",
+                [ngClass]="{'d-none': numPages == current_page}",
+                style="max-width: 100%; height: 100%; max-height: 100%")
+                .final-slide.h-100(
+                [ngClass]="{'d-none': numPages != current_page}",
+                (click)="switchInterface()"
+                )
+                    .m-auto.d-table
+                        button.btn.btn-primary.btn-lg( *ngIf="isTest" type='button', (click)="finalCallback()") Пройти тест →
+        .presentation-controls(*ngIf="interface_enable || !fullscreen")
+            .row.align-self-center
+                .col-auto.align-self-center.ml-auto
+                    .icon-player.icon-player-arrow-left((click)="setPage(1)")
+                .col-auto.align-self-center.mx-auto
+                    .fa.fa-caret-left.presentation-control((click)="prevPage()")
+                .col-auto.align-self-center.mx-auto
+                    .icon-slide
+                        .icon-slide-content {{current_page}}/{{numPages}}
+                .col-auto.align-self-center.mx-auto
+                    .fa.fa-caret-right.presentation-control((click)="nextPage()")
+                .col-auto.align-self-center.mr-auto
+                    .icon-player.icon-player-arrow-right((click)="setPage()")

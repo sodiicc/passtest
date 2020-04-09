@@ -1,0 +1,52 @@
+.player-container {
+    height: 100%;
+    padding-bottom: 180px;
+}
+
+.player-controls {
+    height: 180px;
+    padding: 24px 0;
+}
+
+.progress-dot>.progress-bar:after {
+    content: '';
+    width: 15px;
+    height: 15px;
+    display: block;
+    background: inherit;
+    position: absolute;
+    margin-top: -5px;
+    right: 0;
+    border-radius: 100%;
+}
+
+.progress-dot {
+    overflow: visible;
+}
+
+.progress-dot>.progress-bar {
+    position: relative;
+    height: 5px;
+}
+
+.progress-gray {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.progress-gray>.progress-bar {
+    background-color: #323232;
+    border-radius: 5px;
+}
+
+.player-buttons {
+    padding-top: 10px;
+    padding-bottom: 34px;
+}
+
+.player-cover {
+    padding: 25px;
+}
+
+.player-course p {
+    font-size: 16px;
+}

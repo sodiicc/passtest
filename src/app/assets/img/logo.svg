@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="213" height="56" viewBox="0 0 213 56">
+    <g fill="none" fill-rule="evenodd">
+        <path stroke="#558DFF" stroke-linecap="round" stroke-width="4" d="M91 46c4.938 5.183 11.212 7.774 18.821 7.774 7.066-.255 12.795-2.847 17.185-7.774"/>
+        <path stroke="#2C98FF" stroke-linecap="round" stroke-width="4" d="M91 9.774C95.938 4.591 102.212 2 109.821 2c7.066.256 12.795 2.847 17.185 7.774"/>
+        <text fill="#FFF" font-family="Arciform, Arciform Sans" font-size="50" letter-spacing="3" transform="translate(-1 -7)">
+            <tspan x=".9" y="48">ap</tspan> <tspan x="62.5" y="48">p</tspan>
+        </text>
+        <path fill="#FFF" d="M119.296 25.488h-8.214V17.45c0-1.35-1.101-2.45-2.502-2.45-1.35 0-2.451 1.1-2.451 2.45v8.038H98.45c-1.35 0-2.451 1.1-2.451 2.45s1.1 2.5 2.451 2.5h7.678v8.143c0 1.35 1.1 2.5 2.451 2.5 1.401 0 2.502-1.15 2.502-2.5v-8.143h8.214c1.4 0 2.501-1.15 2.501-2.5s-1.1-2.45-2.501-2.45z"/>
+        <text fill="#FFF" font-family="Arciform, Arciform Sans" font-size="50" letter-spacing="3" transform="translate(-1 -7)">
+            <tspan x="132.175" y="48">ek</tspan> <tspan x="187.275" y="48">a</tspan>
+        </text>
+    </g>
+</svg>

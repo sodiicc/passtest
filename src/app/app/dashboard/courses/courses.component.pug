@@ -1,0 +1,22 @@
+.container
+    .container-indent(
+    *ngIf="courses != undefined",
+    data-infinite-scroll,
+    [infiniteScrollDistance]="1",
+    [infiniteScrollThrottle]="300",
+    (scrolled) = "onScrollDown()")
+        ng-container(*ngFor="let course of courses")
+            .card.card-items.bg-primary.bg-gradient.mb-3(
+            [attr.style]="course.color.generateGradient() | sanitizeStyle",
+            (click)="getCourse(course.id)")
+                .card-body
+                    h4.card-title.inline-status {{ course?.name }}
+                        .circle-status([ngClass] = "{'circle-status-completed': course?.completed}")
+                    ng-container(*ngIf="course.description")
+                        p.card-text([innerHTML]='course?.description | sanitizeHtml')
+                    .row
+                        .col.align-self-center.overflow-ellips
+                            img.brand-icon-wide(*ngIf="course?.organization_icon", [src]="course?.organization_icon")
+                            span(*ngIf="!course?.organization_icon") {{ course?.organization_name }}
+                        .col-auto.align-self-center
+                            a.btn.btn-light.btn-gradient-inherit Пройти курс →

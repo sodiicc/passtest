@@ -1,0 +1,107 @@
+.container.h-100(*ngIf="user")
+    .container-indent
+        .row
+            //.col-12
+                .btn-group.w-100.btn-group-bonuses(data-toggle='buttons')
+                    button.btn.btn-outline-success.w-50(
+                    [ngClass]="{'active': payment_method == 'gift'}",
+                    (click)="selectGift()")
+                        .icon-withdraw.icon-withdraw-card.pull-center
+                    button.btn.btn-outline-success.w-50(
+                    [ngClass]="{'active': payment_method == 'phone'}",
+                    (click)="selectPhone()")
+                        .icon-withdraw.icon-withdraw-phone.pull-center
+            .col-12
+                .row.mt-4
+                    .col-auto.m-auto
+                        .bonuses-title Доступно {{user.info_points || 0}} баллов
+                ng-container(*ngIf="payment_method == 'phone'")
+                    ng-container(*ngIf="state=='phone'").d-none
+                        //.card.bg-transparent.card-bonuses-phone
+                            .card-body
+                                .container-fluid
+                                    .row.border.border-bottom.border-dark-semi
+                                        .col-12.pl-0.pr-0.align-self-center
+                                            .form-control.form-transparent.form-phone-xl.form-phone-withdraw.p-0
+                                                phone-input(
+                                                [onInput]="phoneInput",
+                                                [value]="phone",
+                                                placeholder="0670000000")
+                                p.font-primary.pt-1 номер телефона
+                                .operator-container
+                                    .icon-operator-2x.icon-operator-1x(
+                                    [ngClass]="provider_class")
+                        .row.my-4(_ngcontent-c6='')
+                            .col-auto.m-auto(_ngcontent-c6='')
+                                .bonuses-title(_ngcontent-c6='') История транзакций
+                        .row.mb-5(*ngIf="transactions",
+                        data-infinite-scroll,
+                        [infiniteScrollDistance]="1",
+                        [infiniteScrollThrottle]="300",
+                        (scrolled) = "onScrollDown()")
+                            ng-container(*ngFor="let record of transactions")
+                                .col-12
+                                    .row.transactions-list
+                                        .col-8.align-self-center.transactions-description {{record?.type}}: {{record?.description}}
+                                        .col-4.align-self-center.transactions-meta
+                                            .transactions-price([ngClass]="{'outcome': !record.income}") {{record?.income ? '+' : '-'}} {{record?.amount}} баллов
+                                            .transactions-date {{ record?.date | formatDate }}
+                    ng-container(*ngIf="state=='amount'")
+                        .card.bg-transparent.card-bonuses-phone
+                            .card-body
+                                .container-fluid
+                                    .row.border.border-bottom.border-dark-semi
+                                        .col-8.pl-0.pr-0.align-self-center
+                                            form([formGroup]='amountForm')
+                                                select.custom-select.form-control.form-control-bonuses.form-control-xl.p-0(
+                                                *ngIf="list_amounts",
+                                                name='amount',
+                                                formControlName='amount',
+                                                (change)="convertBonusesForm()")
+                                                    option(
+                                                        *ngFor="let value of list_amounts",
+                                                        [value]="value.id") {{value.name}}
+                                        .col-4.align-self-center.p-0
+                                            .text-withdraw-amount = {{current_rate}}
+                                p.font-primary.pt-1 гривен на номер {{phone.value}}
+                                .operator-container
+                                    .icon-operator-2x.icon-operator-1x([class]="provider_class")
+                    ng-container(*ngIf="state=='confirm'")
+                        .card.bg-transparent.card-bonuses-phone
+                            .card-body
+                                .container-fluid
+                                    .row.border.border-bottom.border-dark-semi
+                                        .col-12.pl-0.pr-0.align-self-center
+                                            form.form-control.form-transparent.form-phone-xl.form-phone-withdraw.p-0([formGroup]='codeForm')
+                                                    input.form-control.form-control-bonuses.form-control-xl.p-0(
+                                                    type='text',
+                                                    name='code',
+                                                    formControlName='code')
+                                p.font-primary.pt-1 Код подтверждения из СМС
+                                .operator-container
+                                    .icon-operator-2x.icon-operator-1x(
+                                    [ngClass]="provider_class")
+                ng-container(*ngIf="payment_method == 'gift'")
+                    .card.bg-transparent.border-secondary.card-bonuses.mt-4
+                        .card-body
+                            .row.justify-content-center
+                                .col-8.align-self-center.border.border-bottom.border-light-extra
+                                    input.form-control.form-control-bonuses.p-0(type='text', value='250', autofocus='')
+                            .row.justify-content-center
+                                .col-auto.align-self-center
+                                    p.h5.p-0.mt-3
+                                        | = 12 500
+                                        span.icon-bonus.icon-bonus-gift.bonus-gift-item
+        .block-level.d-none
+            .btn.btn-turquoise.w-100((click)="button_callback()") {{button_text}}
+ng-template(#withdrawModal='')
+    .modal-body((click)="withdrawModalInstance.hide()")
+        .row.justify-content-center
+            ng-container(*ngIf="withdraw_success")
+                .col-auto
+                    .icon-status-success
+            ng-container(*ngIf="!withdraw_success")
+                .col-auto
+                    .icon-status-error
+                .col-12.text-center.pt-5
+                    p.modal-p {{withdraw_error}}

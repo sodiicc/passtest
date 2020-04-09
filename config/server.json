@@ -1,0 +1,57 @@
+{
+  "serverAddress": "0.0.0.0",
+  "serverPort": "8011",
+  "mongoDB": "mongodb://localhost:27017/mdm",
+  "socket": "ws://portal.dev.mdmworld.com:62016/Ws",
+  "interval": 60000,
+  "collections": {
+    "sessions": "sessions",
+    "fcm": "fcm"
+  },
+  "fcm": {
+    "key": "AAAAFXoVhZs:APA91bEC5P7mObGjUq0HtJPnzQPCAAlPcfYqDx5qbJwxwj5qr_cSF09b8qrZJknflDsiUzX9d9N1405XuRPeBtQCdn_2BAKlzgdVJF8QkMPClT6KRYBm0oWEylPWyWkziMT9omIF69Pc"
+  },
+  "routes": {
+    "base": "/api/v1",
+    "authentication": "/token",
+    "user": "/user",
+    "agreement": "/agreement",
+    "password": "/login",
+    "dictionary": "/dictionary",
+    "course": "/course",
+    "lesson": "/lesson",
+    "test": "/test",
+    "question": "/question",
+    "feed": "/feed",
+    "push": "/push",
+    "news": "/news",
+    "withdraw": "/bonusPointsExchange",
+    "transactions": "/bonusPointsTransaction",
+    "fcm": "/firebase/messages"
+  },
+  "access": {
+    "token": "82975D3B-0FB6-45F1-AA93-EA1DF684E811",
+    "type": "Basic",
+    "user": "Base",
+    "host": "portal.mdmworld.com",
+    "timeout": 3000
+  },
+  "sendmail": {
+    "transport": {
+      "service": "gmail",
+      "host": "smtp.gmail.com",
+      "user": "nodjstransport",
+      "pass": "transportpass",
+      "address": "nodjstransport@gmail.com"
+    },
+    "notify": false,
+    "email": "eugenpushkaroff@gmail.com"
+  },
+  "authorization": {
+    "type": "Bearer ",
+    "secret": "mdm-remote-education"
+  },
+  "pagination": {
+    "page_items": 10
+  }
+}

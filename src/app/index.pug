@@ -1,0 +1,50 @@
+doctype html
+html
+    head
+        base(href="/")
+        link(rel="manifest", href="/manifest.json")
+        meta(charset = 'utf-8')
+        meta(name='viewport', content='width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=1, shrink-to-fit=no')
+        meta(name="mobile-web-app-capable", content="yes")
+        meta(name="apple-mobile-web-app-capable", content="yes")
+        meta(name="msapplication-starturl", content="/")
+        title AppTeka
+
+        // Google Tag Manager
+        script.
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-TQVK3Z9');
+        // End Google Tag Manager
+
+        style.
+            html {
+                height: 100%;
+            }
+
+            body {
+                background-color: #EDEDED;
+                height: 100%;
+                margin: 0;
+            }
+    body
+        // Google Tag Manager (noscript)
+        noscript
+            iframe(src='https://www.googletagmanager.com/ns.html?id=GTM-TQVK3Z9', height='0', width='0', style='display:none;visibility:hidden')
+        // End Google Tag Manager (noscript)
+
+        ir-app
+            .container-fluid
+                .loading-container
+                    .row.h-100.m-0
+                        .col-auto.m-auto.null-loader
+                            img(src="./assets/img/loader.svg")

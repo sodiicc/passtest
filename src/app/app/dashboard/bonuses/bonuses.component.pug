@@ -1,0 +1,15 @@
+.container.h-100
+    .row.h-100
+        .col-sm-12.align-self-center
+            .card.card-items.bg-primary.card-active.bg-gradient.bg-gradient-bonuses
+                .row.text-center
+                    .col-6.pr-0.align-self-center.border-right.border.border-light
+                        .card-body((click)="getWithdraw('gift')")
+                            .icon-tmp.mb-3.pb-1
+                                .icon-bonus.icon-bonus-card.icon-bonus-vcenter
+                            h5.text-white.m-0 На карту
+                    .col-6.pl-0.align-self-center
+                        .card-body((click)="getWithdraw('phone')")
+                            .icon-tmp.mb-3.pb-1
+                                .icon-bonus.icon-bonus-phone.icon-bonus-vcenter
+                            h5.text-white.m-0 На телефон

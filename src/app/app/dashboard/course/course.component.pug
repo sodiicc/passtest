@@ -1,0 +1,34 @@
+ng-container(*ngIf="course")
+    .jumbotron.jumbotron-head.bg-gradient.bg-gradient-1.container-indent(
+    [attr.style]="course.color.generateGradient() | sanitizeStyle")
+        .container
+            .row.mb-2
+                .col.align-self-center.overflow-ellips
+                    img.brand-icon-wide(*ngIf="course?.organization_icon", [src]="course?.organization_icon")
+                    span.text-underline(*ngIf="!course?.organization_icon") {{ course?.organization_name }}
+                .col-auto.align-self-center
+                    .circle-status([ngClass] = "{'circle-status-completed': course?.completed}")
+            h2 {{ course?.name }}
+            ng-container(*ngIf="course.description")
+                p.lead([innerHTML]='course?.description | sanitizeHtml')
+            //ng-container(*ngIf="finalTestAvailable()")
+                button.btn.btn-light.mb-3.btn-lg(
+                (click)="getFinalTest()") Финальный тест →
+    .container
+        .lessons-container
+            .card.card-items.bg-primary.bg-light.mb-3(
+            *ngFor="let lesson of course.lessons",
+            [ngClass] = "{'card-disabled': lesson?.completed}",
+            (click)="getLesson(lesson?.id)")
+                .card-body.pt-4.pb-4
+                    .row
+                        .col-auto.pr-0
+                            .lesson-icon(class="{{ getLessonTypeMeta(lesson.type).icon }}")
+                        .col
+                            h4.card-title.inline-status
+                                span {{ lesson?.name }}
+                                .circle-status(
+                                [ngClass] = "{'circle-status-completed': lesson?.completed}")
+                            p.card-text([innerHTML]='lesson?.description | sanitizeHtml')
+                            h6.text-secondary.mb-0
+                                span {{ getLessonTypeMeta(lesson.type).lang }}

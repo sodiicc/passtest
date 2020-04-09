@@ -1,0 +1,20 @@
+ng-container(*ngIf='codeForm')
+    form.input-phone-label([formGroup]='codeForm')
+        select.input-phone-label(
+        *ngIf="list_codes",
+        name='code',
+        formControlName='code')
+            option(
+            *ngFor="let value of list_codes",
+            [value]="value.code") {{value.display}}
+.phone-input
+    .form-control-phone((click)="focusAll($event)")
+        input.input-phone-3(type='number', pattern="[0-9]*", (keydown)="processBackspace($event)", (input)="processField($event)", max='999', min='000', autofocus="")
+        input.input-phone-3(type='number', pattern="[0-9]*", (keydown)="processBackspace($event)", (input)="processField($event)", max='999', min='000')
+        input.input-phone-2(type='number', pattern="[0-9]*", (keydown)="processBackspace($event)", (input)="processField($event)", max='99', min='00')
+        input.input-phone-2(type='number', pattern="[0-9]*", (keydown)="processBackspace($event)", (input)="processField($event)", max='99', min='00')
+    .form-control-phone.form-control-background(*ngIf="showMask()" )
+        input.input-phone-3([value]='placeholder.substr(0, 3)')
+        input.input-phone-3([value]='placeholder.substr(3, 3)')
+        input.input-phone-2([value]='placeholder.substr(6, 2)')
+        input.input-phone-2([value]='placeholder.substr(8, 2)')

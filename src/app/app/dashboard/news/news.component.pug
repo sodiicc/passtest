@@ -1,0 +1,17 @@
+.container
+    .container-indent(
+    *ngIf="news",
+    data-infinite-scroll,
+    [infiniteScrollDistance]="1",
+    [infiniteScrollThrottle]="300",
+    (scrolled) = "onScrollDown()")
+        .card.bg-transparent.border-secondary.mb-3(
+        *ngFor="let item of news",
+        (click)="getNews(item.id)")
+            .card-body
+                .card-title.text-secondary.mb-0 {{ item.date | formatDate }}
+                h4.card-title.mb-0 {{ item?.name }}
+                .row.mb-3
+                    .col
+                        span.badge.badge-tags(*ngFor="let tag of item.tags") {{tag}}
+                p.card-text {{item?.description}}

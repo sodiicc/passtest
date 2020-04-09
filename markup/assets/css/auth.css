@@ -1,0 +1,141 @@
+.auth-content {
+    font-family: Futura;
+    color: #ffffff;
+    position: relative;
+    z-index: 10;
+}
+
+.auth-container {
+    height: 100%;
+    background-color: #589dfb;
+    overflow: hidden;
+    position: relative;
+}
+
+.auth-content h1 {
+    font-weight: bold;
+    font-size: 50px;
+    font-family: Futura;
+}
+
+.form-control-transparent {
+    background-color: transparent !important;
+    border: none;
+    font-size: 33px;
+    color: white !important;
+    font-weight: bold;
+    padding: 0;
+}
+
+.auth-form {
+    margin-top: 54px;
+}
+
+.form-control-transparent:focus {
+    background-color: transparent;
+}
+
+.auth-form hr {
+    margin: 0;
+    border: none;
+    height: 2px;
+    background-color: #00547b;
+    border-radius: 5px;
+    opacity: 0.2;
+}
+
+.text-black {
+    color: #000;
+}
+
+.text-font {
+    font-family: Circe;
+}
+
+.notification-body {
+    color: #ffffff;
+    text-transform: uppercase;
+    font-family: Futura;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 18px;
+    font-size: 17px;
+}
+
+.notification {
+    height: 60px;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgba(15, 15, 15, 0.6);
+    box-shadow: 0 -5px 8px 0 rgba(0, 0, 0, 0.14);
+    z-index: 100;
+}
+
+.notification-top {
+    top: 0;
+}
+
+.btn-transparent {
+    background-color: rgba(255, 255, 255, 0.6);
+    border: none;
+    padding-top: 14px;
+    padding-bottom: 10px;
+    padding-left: 23px;
+    padding-right: 23px;
+}
+
+.f-circe {
+    font-family: Circe !important;
+}
+
+.auth-container:after {
+    background-image: url(../img/login-gradient@2x.png);
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-filter: blur(25px);
+    background-position: center;
+    background-repeat: no-repeat;
+    animation: auth-background 10s linear infinite;
+}
+
+@keyframes auth-background {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+
+.form-control-phone {
+    font-size: 33px;
+    line-height: 0.73;
+}
+
+.form-control-phone>input {
+    border: none;
+    background: transparent;
+    text-align: center;
+}
+
+.form-control-phone>input::-webkit-inner-spin-button, 
+.form-control-phone>input::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.input-phone-2 {
+    width: 40px;
+}
+
+.input-phone-3 {
+    width: 60px;
+}

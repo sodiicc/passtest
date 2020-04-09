@@ -1,0 +1,63 @@
+ng-container(*ngIf="loading_code")
+    .row.h-100.m-0
+        .col-auto.m-auto
+            md-progress-spinner(
+            class="example-margin",
+            color="#bebebe",
+            mode="indeterminate")
+ng-container(*ngIf="!loading_code")
+    nav.navbar.navbar-expand-xs.fixed-top.navbar-controls
+        .row
+            .col.align-self-center.text-white(*ngIf="step != 'phone'")
+                a.control-back-arrow((click)="toPhone()") ←
+    .container-fluid.auth-container
+        .notification.notification-top(*ngIf="message")
+            .notification-body {{ message }}
+        .row.auth-content.h-100
+            .col-12.mt-auto
+                img.text-center.d-block.m-auto(src="../../assets/img/logo.png")
+                ng-container(*ngIf="step == 'phone'")
+                    .auth-form
+                        .row.justify-content-center
+                            .col-auto
+                                phone-input([onSuccess]="loginPhone", [value]="phone")
+                                hr
+                                .text-center.text-font.mt-3 ваш телефон
+                ng-container(*ngIf="step == 'password'")
+                    form.auth-form(
+                    [formGroup]='passwordForm',
+                    (ngSubmit)="loginPassword($event)")
+                        .row.justify-content-center
+                            .col-10.col-sm-6.col-md-4
+                                .password-field
+                                    input.form-control.form-control-transparent.text-center(
+                                    autofocus='',
+                                    mdInput='',
+                                    name='password',
+                                    formControlName='password',
+                                    [type]='passwordVisible ? "text" : "password"',
+                                    required='')
+                                    .password-switcher
+                                        i.fa(
+                                        (click)="passwordVisible = !passwordVisible",
+                                        [ngClass]="{'fa-eye': !passwordVisible, 'fa-eye-slash': passwordVisible}"
+                                        )
+                                hr
+                                .text-center.text-font.mt-3(*ngIf="new_user") пароль из сообщения
+                                .text-center.text-font.mt-3(*ngIf="!new_user") ваш пароль
+                                .row.justify-content-center.mt-3
+                                    .col-auto
+                                        button.btn.btn-light.btn-transparent.f-circe.progress-button(
+                                        type='submit',
+                                        [ngClass]="{'active': loading_login}"
+                                        )
+                                            span.content Войти
+                                            span.button-progress
+                                                span.progress-inner
+                                        //input.btn.btn-light.btn-transparent.f-circe(type='submit', value='Войти')
+            .col-12.mt-auto.mb-3.text-center
+                ng-container(*ngIf="step == 'password'")
+                    ng-container(*ngIf="new_user")
+                        button.btn.btn-light.btn-transparent.f-circe(type='button', (click)='step = "password"; restore();') Прислать снова
+                    ng-container(*ngIf="!new_user")
+                        button.btn.btn-light.btn-transparent.f-circe(type='button', (click)='step = "password"; restore();') Забыли пароль?

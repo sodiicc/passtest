@@ -1,0 +1,74 @@
+ng-container(*ngIf="lesson")
+    ng-container(*ngIf="!show_player && !show_presentation")
+        .jumbotron.jumbotron-head.bg-gradient.bg-gradient-1.container-indent#lessonTop(
+        [attr.style]="lesson.color.generateGradient() | sanitizeStyle")
+            .container
+                h4 {{ lesson?.name }}
+                p.lead.text-semimuted
+                    | из курса&nbsp;
+                    a.text-underline((click)="getCourse()") {{ lesson?.course_name }}
+        .container.container-controls
+            .card.card-items.bg-primary.bg-light.mb-3
+                ng-container(*ngIf='lesson?.type=="youtube" && ready')
+                    .content-header
+                        .embed-responsive.embed-responsive-16by9
+                            youtube-player.embed-responsive-item(
+                            [videoId]="lesson?.content",
+                            [playerVars]="{" +
+                            "modestbranding: 1," +
+                            "start: (anchor) ? anchor : 0, " +
+                            "showinfo: 0, " +
+                            "rel: 0, " +
+                            "autoplay: (anchor) ? 1 : 0}",
+                            (ready) = "savePlayer($event)",
+                            (change) = "onStateChange($event)")
+                ng-container(*ngIf='lesson?.type=="html"')
+                    .card-body.pt-4.pb-4.lesson-content([innerHTML]='lesson?.content | sanitizeHtml') {{processAnchor()}}
+                ng-container(*ngIf='lesson?.type!="html"')
+                    .card-body.pt-4.pb-4.lesson-content([innerHTML]='lesson?.description | sanitizeHtml')
+            .controls-fixed.text-center(*ngIf="!show_back_question")
+                button.btn.btn-primary.btn-lg(type='button', (click)="getTest(lesson?.id)") Пройти тест →
+                //.content-indicator
+    ng-container(*ngIf="show_player")
+        .container.h-100
+            .container-indent.player-container
+                .card.bg-gradient.card-active.player-cover.h-100(
+                [attr.style]="lesson.color.generateGradient() | sanitizeStyle")
+                    .row.h-100
+                        .col-12
+                            span.text-underline {{ lesson?.organization_name }}
+                        .col-12.text-center.m-auto
+                            h2 {{ lesson?.name }}
+                        .col-12.mt-auto.player-course
+                            p.lead.text-semimuted.mb-0
+                                | из курса&nbsp;
+                                a.text-underline((click)="getCourse()") {{ lesson?.course_name }}
+                .player-controls
+                    .row.align-self-center.player-buttons
+                        .col-auto.align-self-center.mr-auto
+                            .icon-player.icon-player-arrow-left.icon-muted
+                        .col-auto.align-self-center.mr-auto
+                            .icon-player.icon-player-skip-back((click)="audioPlayer.skip(-15)")
+                        .col-auto.align-self-center.mr-auto(*ngIf="!audioPlayer.playing")
+                            .fa.fa-play-circle((click)="audioPlayer.switchActiveState()")
+                        .col-auto.align-self-center.mr-auto(*ngIf="audioPlayer.playing")
+                            .fa.fa-pause-circle((click)="audioPlayer.switchActiveState()")
+                        .col-auto.align-self-center.mr-auto
+                            .icon-player.icon-player-skip-foward((click)="audioPlayer.skip(15)")
+                        .col-auto.align-self-center.mr-auto
+                            .icon-player.icon-player-arrow-right.icon-muted
+                    .row
+                        .col-12
+                            .progress.progress-dot.progress-gray((click)='audioPlayerLineClick($event)')
+                                .progress-bar#progress-bar(
+                                style='height: 5px;',
+                                [ngStyle]="{'width': audioPlayer.getPercent() + '%'}")
+                    .row.mt-3
+                        .col-auto.mr-auto {{formatTime(audioPlayer.current_time)}}
+                        .col-auto
+                            span.text-muted {{formatTime(audioPlayer.duration)}}
+    ng-container(*ngIf="show_presentation")
+        lesson-presentation([lesson]="lesson", [page]="current_media_state", [finalCallback]="getTest")
+    ng-container(*ngIf="show_back_question")
+        .notification.notification-bottom.notification-sm((click)="backToQuestion()")
+            .notification-body ← Назад к вопросу

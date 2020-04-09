@@ -1,0 +1,134 @@
+.container.h-100(*ngIf="test")
+    ng-container(*ngIf="!show_results")
+        .container.container-indent.h-100(*ngIf="question")
+            .row.h-100
+                .col-12.mb-auto
+                    .row.justify-content-center
+                        .col-auto
+                            .steps-container
+                                .step.cursor-pointer(
+                                *ngFor="let point of test?.items",
+                                [ngClass]="{" +
+                                "'step-secondary': (point.state==0)," +
+                                "'step-danger': (point.state==2), " +
+                                "'step-primary': (point.state==1), " +
+                                "'step-active': (question && point.id==question.id)}",
+                                (click)="switchQuestion(point.id)", class="block-chain-item")
+                .col-12.m-auto.p-0
+                    .test-content([@fadeInOut]="test_body_show ? 'open' : 'closed'")
+                        p {{question.description}}
+                        // Checkbox indicator
+                        ng-container(*ngIf="question.type == 'checkbox'")
+                            // Correct
+                            p.text-primary.h6(*ngIf="question.state == 1") вы ответили правильно
+                            // Wrong
+                            p.text-danger.h6(*ngIf="question.state == 2") вы ответили неправильно
+                            // Undefined
+                            p.text-muted.h6(*ngIf="question.state == 0") выберите все правильные ответы
+                .col-12.mt-auto.p-0.loading-area-opacity(
+                [@fadeInOut]="test_body_show ? 'open' : 'closed'",
+                [ngClass]="{'active': loading}",
+                [formGroup]="questionForm",
+                *ngIf="question.type == 'radio'")
+                    .row.row-same-padding.mb-3
+                        .col-12.col-md-6.mt-3.position-relative(*ngFor="let answer of question?.items")
+                            .form-check.form-button-box.bg-gradient.bg-gradient-yellow.mb-0
+                                label.form-check-label.cursor-pointer
+                                    input.form-check-input(
+                                    type='radio',
+                                    [value]="answer.id"
+                                    name='testQuestion',
+                                    formControlName='testQuestion',
+                                    (change)="setQuestion()")
+                                    .button-box-content
+                                        span {{ answer.name }}
+                                .answer-status-container(*ngIf="question.answer.indexOf(answer.id) > -1")
+                                    // Correct answer
+                                    .card.card-button.bg-gradient.bg-gradient-success(
+                                    *ngIf="question.answer.indexOf(answer.id) > -1 && question.state==1") {{answer.name}}
+                                    // Wrong answer
+                                    .card.card-button.bg-gradient.bg-gradient-danger.text-center(
+                                    *ngIf="question.answer.indexOf(answer.id) > -1 && question.state==2")
+                                        .row.mt-auto.mb-auto.align-items-center
+                                            ng-container(*ngIf="question.can_edit && question.anchor")
+                                                .col-6.col-md-12
+                                                    .card-body.card-underline.cursor-pointer((click)="getHint()")
+                                                        span Подсказка
+                                            .col-6.col-md-12
+                                                .card-body.cursor-pointer((click)="getQuestions()")
+                                                    span Дальше →
+                .col-12.mt-auto.p-0(
+                [@fadeInOut]="test_body_show ? 'open' : 'closed'",
+                [formGroup]="questionForm",
+                *ngIf="question.type == 'checkbox'")
+                    .row.row-same-padding.mb-3
+                        .col-xs-12.col-6.mt-3(*ngFor="let answer of questionForm.controls['testQuestion'].controls; let i = index")
+                            .form-check.form-button-box.bg-gradient.bg-gradient-yellow.mb-0
+                                label.form-check-label.cursor-pointer
+                                    input.form-check-input(
+                                    type='checkbox',
+                                    [formControl]="answer",
+                                    (change)="updateNavButton()")
+                                    .button-box-content
+                                        span {{question.items[i].name}}
+    ng-container(*ngIf="show_results", [@fadeInOut])
+        .container-indent.h-100
+            .row.h-100
+                .col-12.mb-auto.pt-3
+                    .nimbus.nimbus-gradient-1
+                        .nimbus-container
+                            div
+                                | {{test.correct_percentage}}
+                                sup %
+                .col-12.m-auto
+                    .row.justify-content-center.mt-5
+                        .col-12
+                            .test-content.mt-2
+                                h4 {{test.name}}
+                                ng-container(*ngIf="course")
+                                    p.text-muted.h6.mb-2(*ngIf="isFinalTest()") итоговый тест курса
+                                    p.text-muted.h6.mb-2(*ngIf="!isFinalTest()")
+                                        | из курса&nbsp;
+                                        span.text-underline {{course.name}}
+                                    ng-container(*ngIf="result && result['GotBonusPoints']!==undefined")
+                                        p.h6.mb-0.text-bonus-danger(*ngIf="result['GotBonusPoints'] == 0") Недостаточно правильных ответов для начисления баллов
+                                        p.h6.mb-0.text-bonus-info(*ngIf="result['GotBonusPoints'] > 0") По завершению вам будет начислено {{result['GotBonusPoints']}} баллов
+                        .col-12.mt-4
+                            .row
+                                .col-12(*ngFor="let row_group of reformatTestSteps()")
+                                    .steps-container-wide
+                                        .step.step-wide.cursor-pointer(
+                                        *ngFor="let point of row_group",
+                                        [ngClass]="{" +
+                                        "'step-danger': (point.state==2), " +
+                                        "'step-primary': (point.state==1), " +
+                                        "'step-secondary': (question && point.id==question.id)," +
+                                        "'mb-3': isFinalTest()}",
+                                        (click)="testResultSwitchQuestion(point.id)") {{point.order + 1}}
+                        .col-12
+                            .test-content.mt-0(*ngIf="!isFinalTest()")
+                                p.text-muted.h7 нажмите на вопрос, чтобы ответить снова
+                .col-12.mt-auto.pb-3
+                    .row.justify-content-center
+                        ng-container(*ngIf="isFinalTest()")
+                            .col-auto
+                                button.btn.btn-primary.btn-lg(
+                                type='button',
+                                (click)="getCourse()") Завершить курс
+                        ng-container(*ngIf="!isFinalTest()")
+                            ng-container(*ngIf="course")
+                                ng-container(*ngIf="finalTestAvailable()")
+                                    .col-auto.pb-3.pb-md-0
+                                        button.btn.btn-outline-primary.btn-lg(
+                                        type='button',
+                                        (click)="getCourse()") К курсу
+                                    .col-auto
+                                        button.btn.btn-info.btn-lg(
+                                        type='button',
+                                        (click)="getFinalTest()") Итоговый тест →
+                                .col-auto(*ngIf="!test.redirectUrl && !finalTestAvailable()")
+                                    button.btn.btn-primary.btn-lg(
+                                    (click)="getCourse()") Завершить тест
+                                .col-auto(*ngIf="test.redirectUrl")
+                                    button.btn.btn-primary.btn-lg(
+                                    (click)="followRedirect()") Получить сертификат

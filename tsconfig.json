@@ -1,0 +1,30 @@
+{
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "removeComments": false,
+        "sourceMap": true,
+        "target": "es5",
+        "lib": [
+            "es2016",
+            "dom"
+        ],
+        "noEmit": true,
+        "skipLibCheck": true,
+        "declaration": false,
+        "baseUrl": "src/app",
+        "paths": {
+            "@angular/*": [
+                "node_modules/@angular/*"
+            ]
+        }
+    },
+    "files": [
+        "src/app/main.ts",
+        "src/app/typings.d.ts"
+    ]
+}

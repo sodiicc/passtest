@@ -1,0 +1,29 @@
+{
+  "apiHost": "https://api.appteka.club",
+  "app_name": "MDM",
+  "socket": "/messages",
+  "socket_comet": "/comet",
+  "password_length": 4,
+  "pagination": {
+    "page_items": 10
+  },
+  "routes": {
+    "base": "/api/v1",
+    "user": "/user",
+    "agreement": "/agreement",
+    "country": "/authentication/country",
+    "authentication": "/authentication",
+    "registration": "/registration",
+    "restore": "/registration/restore",
+    "logout": "/user/logout",
+    "delete": "/user/delete",
+    "courses": "/courses",
+    "lessons": "/lessons",
+    "test": "/test",
+    "feed": "/feed",
+    "push": "/push",
+    "news": "/news",
+    "withdraw": "/withdraw",
+    "fcm": "/firebase/messages"
+  }
+}

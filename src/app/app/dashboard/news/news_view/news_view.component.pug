@@ -1,0 +1,11 @@
+ng-container(*ngIf="news")
+    .jumbotron.jumbotron-head.bg-purple.container-indent#lessonTop
+        .container
+            .h7.text-secondary.mb-1.text-light {{ news?.date | formatDate }}
+            h4.text-light {{ news?.name }}
+            blockquote.blockquote.blockquote-primary.mt-4
+                p.mb-0 {{news?.description}}
+    .container
+        .card.card-items.bg-primary.bg-light.mb-3
+            .card-body.pt-4.pb-4.lesson-content
+                p(#page [innerHTML]='news?.content | sanitizeHtml')

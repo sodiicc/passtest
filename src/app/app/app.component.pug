@@ -1,0 +1,7 @@
+router-outlet
+ng-template(#modalWindowElem='')
+    .modal-body((click)="modalWindowInstance.hide()") {{modalWindow.message}}
+    .container-fluid
+        .row.modal-controls
+            .col(*ngFor="let button of modalWindow.buttons")
+                .modal-control((click)="button.callback(modalWindowInstance)") {{button.text}}

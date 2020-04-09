@@ -1,0 +1,234 @@
+ng-container(*ngIf="user")
+    .jumbotron.bg-white.container-indent.mb-0
+        .container
+            .row.justify-content-between
+                .col-12.align-self-center
+                    .h2-px
+                        ng-container(*ngIf="user.first_name") {{user?.first_name.name}}
+                        ng-container(*ngIf="user.middle_name") {{user?.middle_name.name}}
+                        ng-container(*ngIf="user.last_name") {{user?.last_name}}&nbsp;
+            p.h5.mt-4.mb-0(*ngIf="first_time")
+                | Здравствуйте, вы являетесь абонентом сообщений от компании МДМ.
+                | Для доступа к обучениям и чтобы получать только важную и полезную для вас информацию,
+                | пожалуйста, проверьте информацию о вас.
+            .row.mt-4
+                .col.align-self-center
+                    button.btn.btn-primary((click)="formEdit()", *ngIf="!is_editing") Редактировать
+                    button.btn.btn-primary((click)="submitForm()", *ngIf="is_editing", '[disabled]'='!current_form.valid') Сохранить
+    .container.p-0(*ngIf="current_form")
+        form( 
+        [formGroup]="current_form")
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1(
+            *ngIf="is_editing")
+                .container-fluid
+                    .card-body
+                        .row.justify-content-between.pb-1
+                            .col.align-self-center
+                                h6.card-title.text-secondary.m-0 ФИО
+                        .row
+                            .col-12
+                                .form-group
+                                    input.form-control.form-control-light(
+                                    type='text',
+                                    placeholder='Имя',
+                                    formControlName="first_name",
+                                    ng2-auto-complete,
+                                    (ngModelChange)="modelChangeHotfix('first_name', $event)",
+                                    value-property-name="id",
+                                    display-property-name="name",
+                                    max-num-list="5",
+                                    [source]="firstNameDictionary.bind(this)",
+                                    [list-formatter]="autocompleteListFormatter",
+                                    (change)="formatCustomAnswer($event)")
+                                    p.text-red(*ngIf="current_form.controls['first_name'].invalid") {{ validateStr }}
+                            .col-12
+                                .form-group
+                                    input.form-control.form-control-light(
+                                    type='text',
+                                    placeholder='Отчество',
+                                    formControlName="middle_name",
+                                    ng2-auto-complete,
+                                    (ngModelChange)="modelChangeHotfix('middle_name', $event)",
+                                    value-property-name="id",
+                                    display-property-name="name",
+                                    max-num-list="5",
+                                    [source]="middleNameDictionary.bind(this)",
+                                    [list-formatter]="autocompleteListFormatter",
+                                    (change)="formatCustomAnswer($event)")
+                                    p.text-red(*ngIf="current_form.controls['middle_name'].invalid") {{ validateStr }}
+                            .col-12
+                                .form-group
+                                    input.form-control.form-control-light(
+                                    type='text',
+                                    placeholder='Фамилия',
+                                    formControlName="last_name")
+                                    p.text-red(*ngIf="current_form.controls['last_name'].invalid") {{ validateStr }}
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1
+                .container-fluid
+                    .card-body
+                        ng-container(*ngIf="!is_editing")
+                            .row.justify-content-between.pb-1
+                                .col.align-self-center
+                                    h6.card-title.text-secondary.m-0 Место работы
+                            h4.card-title
+                                span(*ngIf="user?.organization") {{ user?.organization.name }}&nbsp;
+                                span(*ngIf="user?.position") {{ user?.position.name }}&nbsp;
+                                span(*ngIf="user?.specialty") {{ user?.specialty.name }}
+                            p.card-text.text-secondary
+                                span(*ngIf="user?.street") {{ user?.street.name }}&nbsp;
+                                span(*ngIf="user?.street_number") {{ user?.street_number }},&nbsp;
+                                span(*ngIf="user?.city") {{ user?.city.name }}&nbsp;
+                                span(*ngIf="user?.country") {{ user?.country.name }}
+                        ng-container(*ngIf="is_editing")
+                            .row.justify-content-between.pb-1
+                                .col.align-self-center
+                                    h6.card-title.text-secondary.m-0 Место работы
+                            .row
+                                .col-12.col-sm-12
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        ng2-auto-complete,
+                                        (ngModelChange)="modelChangeHotfix('city', $event)",
+                                        value-property-name="id",
+                                        display-property-name="name",
+                                        [accept-user-input]="false",
+                                        max-num-list="5",
+                                        [source]="cityDictionary.bind(this)",
+                                        [list-formatter]="autocompleteListFormatter",
+                                        type='text',
+                                        placeholder='Город',
+                                        formControlName="city")
+                                        p.text-red(*ngIf="current_form.controls['city'].invalid") {{ validateStr }}
+                            .row.mb-3
+                                .col-12.col-sm-6
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        ng2-auto-complete,
+                                        (ngModelChange)="modelChangeHotfix('street', $event)",
+                                        value-property-name="id",
+                                        display-property-name="name",
+                                        max-num-list="5",
+                                        [source]="streetDictionary.bind(this)",
+                                        [list-formatter]="autocompleteListFormatter",
+                                        (change)="formatCustomAnswer($event)",
+                                        type='text',
+                                        placeholder='Улица',
+                                        formControlName="street")
+                                        p.text-red(*ngIf="current_form.controls['street'].invalid") {{ validateStr }}
+                                .col-12.col-sm-6
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        type='text',
+                                        placeholder='Номер дома',
+                                        formControlName="street_number")
+                            .row.mb-3
+                                .col-12
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        ng2-auto-complete,
+                                        (ngModelChange)="modelChangeHotfix('organization', $event)",
+                                        value-property-name="id",
+                                        display-property-name="name",
+                                        max-num-list="5",
+                                        [source]="companyDictionary.bind(this)",
+                                        [list-formatter]="autocompleteListFormatter",
+                                        type='text',
+                                        (change)="formatCustomAnswer($event)",
+                                        placeholder='Место работы',
+                                        formControlName="organization")
+                                        p.text-red(*ngIf="current_form.controls['organization'].invalid") {{ validateStr }}
+                            .row.mb-3
+                                .col-12.col-sm-6
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        ng2-auto-complete,
+                                        (ngModelChange)="modelChangeHotfix('position', $event)",
+                                        value-property-name="id",
+                                        display-property-name="name",
+                                        [accept-user-input]="false",
+                                        max-num-list="5",
+                                        [source]="positionDictionary.bind(this)",
+                                        [list-formatter]="autocompleteListFormatter",
+                                        type='text',
+                                        placeholder='Должность',
+                                        formControlName="position")
+                                        p.text-red(*ngIf="current_form.controls['position'].invalid") {{ validateStr }}
+                                .col-12.col-sm-6
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        ng2-auto-complete,
+                                        (ngModelChange)="modelChangeHotfix('specialty', $event)",
+                                        value-property-name="id",
+                                        display-property-name="name",
+                                        [accept-user-input]="false",
+                                        max-num-list="5",
+                                        [source]="specialtyDictionary.bind(this)",
+                                        [list-formatter]="autocompleteListFormatter",
+                                        type='text',
+                                        placeholder='Специальность',
+                                        formControlName="specialty")
+                                        p.text-red(*ngIf="current_form.controls['specialty'].invalid") {{ validateStr }}
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1
+                .container-fluid
+                    .card-body
+                        ng-container(*ngIf="!is_editing")
+                            .row.justify-content-between.pb-1
+                                .col.align-self-center
+                                    h6.card-title.text-secondary.m-0 Мои контакты
+                            h4.card-title(*ngIf="user?.email") {{ user?.email }}
+                            h4.card-title(*ngIf="user?.mobile_phone") {{ user?.mobile_phone }}
+                        ng-container(*ngIf="is_editing")
+                            .row.justify-content-between.pb-1
+                                .col.align-self-center
+                                    h6.card-title.text-secondary.m-0 Мои контакты
+                            .row
+                                .col-12
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        type='text',
+                                        placeholder='Email',
+                                        formControlName="email")
+                                .col-12
+                                    .form-group
+                                        input.form-control.form-control-light(
+                                        type='text',
+                                        disabled='',
+                                        placeholder='Телефон',
+                                        [value]="user?.mobile_phone")
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1
+                .container-fluid
+                    .card-body
+                        .row.justify-content-between.pb-1
+                            .col.align-self-center
+                                h6.card-title.text-secondary.m-0 Язык
+                        ng-container(*ngIf="!is_editing")
+                            h4.card-title(*ngIf="user?.lang") {{ language_helper.getLanguageById(user.lang).name }}
+                        ng-container(*ngIf="is_editing && user?.lang")
+                            select(formControlName="lang")
+                                ng-container(*ngFor="let lang of language_helper.getLanguages()")
+                                    option( 
+                                        [value]="lang.id",
+                                        [selected]="lang.id === user.lang") {{ lang.name }}
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1
+                .container-fluid
+                    .card-body
+                        .row
+                            .col
+                                h4.card-title Пуш-уведомления
+                            .col-auto.pr-0
+                                .toggle((click)="pushSubscribitionHandler()")
+                                    label
+                                        input(
+                                        type='checkbox',
+                                        disabled='',
+                                        [attr.checked]="subscribed ? '' : null")
+                                        .toggle
+                        p.card-text.text-secondary
+                            | Узнавайте о начислении баллов и новых интересных акциях первым
+            .card.bg-transparent.border-0.card-wide.pt-1.pb-1
+                .container-fluid
+                    .card-body
+                        ng-container(*ngIf="!is_editing")
+                            a( class="agreement-link", (click)="onClickLink()") {{ agreement?.linkName }}
+        .text-center.pb-3.mb-4
+            button.btn.btn-primary.btn-lg((click)='submitForm()', *ngIf="is_editing", '[disabled]'='!current_form.valid') Сохранить
