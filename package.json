@@ -40,7 +40,7 @@
     "css-to-string-loader": "^0.1.2",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "express-fileupload": "~0.1",
+    "express-fileupload": "~1.1",
     "express-jwt": "^5.3.0",
     "express-session": "^1.11.3",
     "extract-text-webpack-plugin": "^2.1.0",
